@@ -7,19 +7,49 @@
   </head>
   <body>
     <h1>Create an Account</h1>
-    <form action="/auth/signup">
+    <% if (errors){%>
+    <ul>
+      <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+    <% } %>
+    <form action="/auth/signup" method="post">
       <label for="fullname"
-        >Full Name: <input type="text" name="fullname" id="fullname" required
+        >Full Name:
+        <input
+          type="text"
+          name="fullname"
+          id="fullname"
+          value="<%= fullname || ''%>"
+          required
       /></label>
       <label for="username"
-        >Username: <input type="text" name="username" id="username" required
+        >Username:
+        <input
+          type="text"
+          name="username"
+          id="username"
+          value="<%= username || ''%>"
+          required
       /></label>
       <label for="password"
-        >Password: <input type="text" name="password" id="password" required
+        >Password:
+        <input
+          type="text"
+          name="password"
+          id="password"
+          value="<%= password || ''%>"
+          required
       /></label>
       <label for="confirm"
         >Confirm Password:
-        <input type="text" name="confirm" id="confirm" required
+        <input
+          type="text"
+          name="confirm"
+          id="confirm"
+          value="<%= confirm || ''%>"
+          required
       /></label>
       <button type="submit">Create Account</button>
     </form>
