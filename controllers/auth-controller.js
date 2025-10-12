@@ -1,4 +1,6 @@
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const queries = require("../database/queries");
 
 const validator = [
   body("fullname")
@@ -65,6 +67,11 @@ exports.signupPost = [
         errors: errors.array(),
       });
     }
+
+    const salt = await bcrypt.genSalt();
+    const hashed = await bcrypt.hash(password, salt);
+
+    await queries.registerUser(fullname, username, hashed);
 
     res.redirect("/");
   },
