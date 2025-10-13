@@ -5,6 +5,8 @@ const usersRouter = require("./routes/users");
 const session = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const client = require("./database/client");
+const passport = require("passport");
+const passportInit = require("./config/passport-config");
 require("dotenv").config();
 
 const app = express();
@@ -23,12 +25,14 @@ app.use(
       maxAge: 2 * 24 * 60 * 60 * 1000, // Two days
     },
     store: new PrismaSessionStore(client, {
-      checkPeriod: 2 * 60 * 1000,
+      checkPeriod: 2 * 60 * 1000, // Two minutes
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
   })
 );
+
+passportInit(passport); // Initialize passport as defined in config
 
 app.get("/", (req, res) => {
   res.render("index");
