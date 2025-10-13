@@ -1,6 +1,7 @@
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const queries = require("../database/queries");
+const passport = require("passport");
 
 const validator = [
   body("fullname")
@@ -77,17 +78,7 @@ exports.signupPost = [
   },
 ];
 
-exports.loginPost = [
-  loginValidator,
-  async (req, res) => {
-    const { username, password } = req.body;
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.render("login", {
-        username: username,
-        password: password,
-      });
-    }
-    res.redirect("/");
-  },
-];
+exports.loginPost = passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/auth/login",
+});
