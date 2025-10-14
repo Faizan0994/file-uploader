@@ -33,6 +33,7 @@ app.use(
 );
 
 passportInit(passport); // Initialize passport as defined in config
+app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.render("index");
