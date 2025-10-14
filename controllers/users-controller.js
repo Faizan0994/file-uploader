@@ -8,3 +8,9 @@ exports.dashboardGet = (req, res) => {
     res.redirect("/auth");
   }
 };
+
+exports.uploadGet = (req, res) => {
+  if (!req.user) return res.redirect("/auth"); // Confirm the user is logged in
+
+  res.render("upload");
+};
