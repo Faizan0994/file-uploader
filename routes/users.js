@@ -11,4 +11,6 @@ router.get("/", (req, res) => {
 
 router.get("/dashboard", controller.dashboardGet);
 
+router.get("/upload", controller.uploadGet);
+
 module.exports = router;
