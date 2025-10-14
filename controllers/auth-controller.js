@@ -40,6 +40,7 @@ const loginValidator = [
 ];
 
 exports.loginGet = (req, res) => {
+  if (req.user) return res.redirect("/users/dashboard");
   res.render("login", { errors: null, username: null, password: null });
 };
 
