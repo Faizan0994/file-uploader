@@ -27,3 +27,25 @@ model Session {
   data            String   
   expiresAt       DateTime
 }
+
+model File {
+  id              Int               @id @default(autoincrement())
+  name            String            
+  storedName      String
+  path            String            @unique
+  size            Int
+  uploaded        DateTime          @default(now())
+  directory       Folder?           @relation(fields: [folderId], references: [id])
+  folderId        Int
+
+}
+
+model Folder {
+  id              Int               @id @default(autoincrement())
+  name            String
+  path            String            @unique
+  files           File[]
+  parentId        Int?
+  parent          Folder?           @relation("FolderChildren", fields: [parentId], references: [id])
+  children        Folder[]          @relation("FolderChildren")
+}
