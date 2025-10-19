@@ -13,4 +13,6 @@ router.get("/dashboard", controller.dashboardGet);
 
 router.get("/upload", controller.uploadGet);
 
+router.post("/upload", controller.uploadPost);
+
 module.exports = router;
