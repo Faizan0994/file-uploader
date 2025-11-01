@@ -19,6 +19,8 @@ model User {
   name            String
   username        String            @unique
   password        String
+  folders         Folder[]
+  files           File[]
 }
 
 model Session {
@@ -35,9 +37,12 @@ model File {
   path            String            @unique
   size            Int
   uploaded        DateTime          @default(now())
-  directory       Folder?           @relation(fields: [folderId], references: [id])
-  folderId        Int
+  directory       Folder?           @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  folderId        Int?
+  userId          Int               
+  user            User              @relation(fields: [userId], references: [id])
 
+  @@unique([folderId, name])
 }
 
 model Folder {
@@ -46,6 +51,8 @@ model Folder {
   path            String            @unique
   files           File[]
   parentId        Int?
-  parent          Folder?           @relation("FolderChildren", fields: [parentId], references: [id])
+  parent          Folder?           @relation("FolderChildren", fields: [parentId], references: [id], onDelete: Cascade)
   children        Folder[]          @relation("FolderChildren")
+  userId          Int               
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
