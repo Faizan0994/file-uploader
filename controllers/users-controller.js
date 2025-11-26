@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
+const queries = require("../database/queries");
 
 // Storage handling
 const storage = multer.diskStorage({
@@ -20,10 +21,23 @@ const upload = multer({
 });
 
 // Controllers
-exports.dashboardGet = (req, res) => {
+
+exports.dashboardPathGet = async (req, res) => {
   let user = req.user;
   if (user) {
-    res.render("dashboard", { name: user.name });
+    let path = req.params.path === "root" ? "" : req.params.path; // use "root" to represent ""
+    console.log(path);
+    let content = await queries.getFolderContent(path, user.id);
+    res.render("dashboard", { name: user.name, content: content });
+  } else {
+    res.redirect("/auth");
+  }
+};
+
+exports.dashboardGet = async (req, res) => {
+  let user = req.user;
+  if (user) {
+    res.redirect("/users/dashboard/root");
   } else {
     res.redirect("/auth");
   }
@@ -38,6 +52,12 @@ exports.uploadGet = (req, res) => {
 exports.uploadPost = [
   upload.single("uploadedFile"),
   (req, res) => {
+    /*
+    name: originalname,
+    storedName: filename,
+    path: path,
+    size: size
+    */
     res.redirect("/users/dashboard");
   },
 ];
