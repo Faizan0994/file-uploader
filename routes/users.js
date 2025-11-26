@@ -11,6 +11,8 @@ router.get("/", (req, res) => {
 
 router.get("/dashboard", controller.dashboardGet);
 
+router.get("/dashboard/:path", controller.dashboardPathGet);
+
 router.get("/upload", controller.uploadGet);
 
 router.post("/upload", controller.uploadPost);
