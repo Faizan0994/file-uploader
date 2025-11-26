@@ -4,10 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css" />
   </head>
   <body>
     <h1>Welcome: <%= name %></h1>
     <a href="/auth/logout"><button>Logout</button></a>
-    <a href="/users/upload"><button>Upload A File</button></a>
+    <div class="files">
+      <h2>Files</h2>
+      <div class="bar"></div>
+      <ul>
+        <% content[0].forEach(entity => { %>
+        <li><%= entity.name + "/" %></li>
+        <% }) %> <% content[1].forEach(entity => { %>
+        <li><%= entity.name %></li>
+        <% }) %>
+      </ul>
+      <a href="/users/upload"><button>Upload A File</button></a>
+    </div>
   </body>
 </html>
