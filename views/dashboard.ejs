@@ -12,9 +12,14 @@
     <div class="files">
       <h2>Files</h2>
       <div class="bar"></div>
+      <h3><%= current %></h3>
       <ul>
         <% content[0].forEach(entity => { %>
-        <li><%= entity.name + "/" %></li>
+        <li>
+          <a href="<%='/users/dashboard/' + entity.path.replace('/', '%2F')%>"
+            ><%= entity.name + "/" %></a
+          >
+        </li>
         <% }) %> <% content[1].forEach(entity => { %>
         <li><%= entity.name %></li>
         <% }) %>

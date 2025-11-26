@@ -26,9 +26,12 @@ exports.dashboardPathGet = async (req, res) => {
   let user = req.user;
   if (user) {
     let path = req.params.path === "root" ? "" : req.params.path; // use "root" to represent ""
-    console.log(path);
     let content = await queries.getFolderContent(path, user.id);
-    res.render("dashboard", { name: user.name, content: content });
+    res.render("dashboard", {
+      name: user.name,
+      content: content,
+      current: path + "/",
+    });
   } else {
     res.redirect("/auth");
   }
