@@ -46,6 +46,19 @@ exports.dashboardGet = async (req, res) => {
   }
 };
 
+exports.deleteFolderPost = async (req, res) => {
+  let user = req.user;
+  if (user) {
+    let path = req.params.path;
+    await queries.deleteFolder(path, user.id);
+    let current = req.body.currentPath;
+    current = current.replace("/", "%2F");
+    res.redirect(`/users/dashboard/${current}`);
+  } else {
+    res.redirect("/auth");
+  }
+};
+
 exports.uploadGet = (req, res) => {
   if (!req.user) return res.redirect("/auth"); // Confirm the user is logged in
 
