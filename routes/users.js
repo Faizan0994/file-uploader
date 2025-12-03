@@ -17,4 +17,6 @@ router.get("/upload", controller.uploadGet);
 
 router.post("/upload", controller.uploadPost);
 
+router.post("/dashboard/:path/deleteFolder", controller.deleteFolderPost);
+
 module.exports = router;
