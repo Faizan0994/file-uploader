@@ -13,10 +13,10 @@
       <h2>Files</h2>
       <div class="bar"></div>
       <h3><%= current %></h3>
-      <ul>
+      <ul class="content">
         <% content[0].forEach(entity => { %>
         <li>
-          <div>
+          <div class="folder">
             <a href="<%='/users/dashboard/' + entity.path.replace('/', '%2F')%>"
               ><%= entity.name + "/" %></a
             >
@@ -34,7 +34,7 @@
           </div>
         </li>
         <% }) %> <% content[1].forEach(entity => { %>
-        <li><%= entity.name %></li>
+        <li class="file"><%= entity.name %></li>
         <% }) %>
       </ul>
       <a href="/users/upload"><button>Upload A File</button></a>

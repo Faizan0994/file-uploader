@@ -7,3 +7,17 @@
 a {
   color: black;
 }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+.folder,
+.file {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(241, 240, 240);
+  padding: 0.5vw;
+  border-radius: 8px;
+}
