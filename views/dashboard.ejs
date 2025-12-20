@@ -37,7 +37,46 @@
         <li class="file"><%= entity.name %></li>
         <% }) %>
       </ul>
-      <a href="/users/upload"><button>Upload A File</button></a>
+      <div class="buttons">
+        <button id="createFolder" onclick="createFolder(event)">
+          Create folder
+        </button>
+        <a href="/users/upload" class="uploadButton"
+          ><button>Upload A File</button></a
+        >
+      </div>
     </div>
   </body>
+  <script>
+    function createFolder(e) {
+      const buttons = document.querySelector(".buttons");
+      const createFolderButton = e.target;
+      const uploadButton = document.querySelector(".uploadButton");
+      createFolderButton.classList.add("hidden");
+      uploadButton.classList.add("hidden");
+      const createFolderForm = document.createElement("form");
+      createFolderForm.setAttribute("method", "post");
+      createFolderForm.setAttribute(
+        "action",
+        "/users/dashboard/<%= current === '/' ? 'root' : current.slice(0, -1).replace('/', '%2F').replace(' ', '%20')%>/createFolder"
+      );
+      const folderNameLabel = document.createElement("label");
+      folderNameLabel.setAttribute("for", "folderNameInput");
+      folderNameLabel.textContent = "Folder name: ";
+      const folderNameInput = document.createElement("input");
+      folderNameInput.setAttribute("id", "folderNameInput");
+      folderNameInput.setAttribute("name", "folderName");
+      folderNameInput.setAttribute("type", "text");
+
+      const submitButton = document.createElement("button");
+      submitButton.setAttribute("type", "submit");
+      submitButton.textContent = "Create";
+
+      createFolderForm.appendChild(folderNameLabel);
+      createFolderForm.appendChild(folderNameInput);
+      createFolderForm.appendChild(submitButton);
+
+      buttons.appendChild(createFolderForm);
+    }
+  </script>
 </html>

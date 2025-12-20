@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const queries = require("../database/queries");
+const { body } = require("express-validator");
 
 // Storage handling
 const storage = multer.diskStorage({
@@ -54,6 +55,19 @@ exports.deleteFolderPost = async (req, res) => {
     let current = req.body.currentPath;
     current = current.replace("/", "%2F");
     res.redirect(`/users/dashboard/${current}`);
+  } else {
+    res.redirect("/auth");
+  }
+};
+
+exports.createFolderPost = async (req, res) => {
+  let user = req.user;
+  if (user) {
+    let path = req.params.path === "root" ? "" : req.params.path; // use "root" to represent ""
+    let folderName = req.body.folderName;
+    await queries.createFolder(path, folderName, user.id);
+    path = path.replace("/", "%2F");
+    res.redirect(`/users/dashboard/${path}`);
   } else {
     res.redirect("/auth");
   }

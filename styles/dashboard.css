@@ -21,3 +21,7 @@ a {
   padding: 0.5vw;
   border-radius: 8px;
 }
+
+.hidden {
+  display: none;
+}
