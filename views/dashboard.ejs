@@ -31,6 +31,13 @@
               />
               <button type="submit">Delete</button>
             </form>
+            <button
+              id="renameFolder"
+              data-entity='<%- JSON.stringify(entity).replace(/'/g, "&apos;") %>'
+              onclick="renameFolder(this)"
+            >
+              Rename
+            </button>
           </div>
         </li>
         <% }) %> <% content[1].forEach(entity => { %>
@@ -77,6 +84,49 @@
       createFolderForm.appendChild(submitButton);
 
       buttons.appendChild(createFolderForm);
+    }
+
+    function renameFolder(btn) {
+      const folder = JSON.parse(btn.dataset.entity);
+
+      const buttons = document.querySelector(".buttons");
+      const createFolderButton = document.querySelector("#createFolder");
+      const uploadButton = document.querySelector(".uploadButton");
+      createFolderButton.classList.add("hidden");
+      uploadButton.classList.add("hidden");
+      const renameFolderForm = document.createElement("form");
+      renameFolderForm.setAttribute("method", "post");
+      renameFolderForm.setAttribute(
+        "action",
+        `/users/dashboard/${folder.path
+          .replace("/", "%2F")
+          .replace(" ", "%20")}/renameFolder`
+      );
+      const folderNameLabel = document.createElement("label");
+      folderNameLabel.setAttribute("for", "folderNameInput");
+      folderNameLabel.textContent = "New name: ";
+      const folderNameInput = document.createElement("input");
+      folderNameInput.setAttribute("id", "folderNameInput");
+      folderNameInput.setAttribute("name", "newName");
+      folderNameInput.setAttribute("type", "text");
+      const currentPath = document.createElement("input");
+      currentPath.setAttribute("type", "hidden");
+      currentPath.setAttribute("name", "currentPath");
+      currentPath.setAttribute(
+        "value",
+        "<%= current.length > 1 ? current.slice(0, -1).replace('/', '%2F') : 'root' %>"
+      );
+
+      const submitButton = document.createElement("button");
+      submitButton.setAttribute("type", "submit");
+      submitButton.textContent = "Rename";
+
+      renameFolderForm.appendChild(folderNameLabel);
+      renameFolderForm.appendChild(folderNameInput);
+      renameFolderForm.appendChild(currentPath);
+      renameFolderForm.appendChild(submitButton);
+
+      buttons.appendChild(renameFolderForm);
     }
   </script>
 </html>

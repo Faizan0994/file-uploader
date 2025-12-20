@@ -21,4 +21,6 @@ router.post("/dashboard/:path/deleteFolder", controller.deleteFolderPost);
 
 router.post("/dashboard/:path/createFolder", controller.createFolderPost);
 
+router.post("/dashboard/:path/renameFolder", controller.renameFolderPost);
+
 module.exports = router;

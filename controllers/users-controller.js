@@ -53,7 +53,7 @@ exports.deleteFolderPost = async (req, res) => {
     let path = req.params.path;
     await queries.deleteFolder(path, user.id);
     let current = req.body.currentPath;
-    current = current.replace("/", "%2F");
+    current = current.replace("/", "%2F").replace(" ", "%20");
     res.redirect(`/users/dashboard/${current}`);
   } else {
     res.redirect("/auth");
@@ -66,8 +66,22 @@ exports.createFolderPost = async (req, res) => {
     let path = req.params.path === "root" ? "" : req.params.path; // use "root" to represent ""
     let folderName = req.body.folderName;
     await queries.createFolder(path, folderName, user.id);
-    path = path.replace("/", "%2F");
+    path = path.replace("/", "%2F").replace(" ", "%20");
     res.redirect(`/users/dashboard/${path}`);
+  } else {
+    res.redirect("/auth");
+  }
+};
+
+exports.renameFolderPost = async (req, res) => {
+  let user = req.user;
+  if (user) {
+    let path = req.params.path;
+    let current = req.body.currentPath;
+    let newName = req.body.newName;
+    await queries.renameFolder(path, user.id, newName);
+    current = current.replace("/", "%2F").replace(" ", "%20");
+    res.redirect(`/users/dashboard/${current}`);
   } else {
     res.redirect("/auth");
   }
