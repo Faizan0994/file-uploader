@@ -89,19 +89,48 @@ exports.renameFolderPost = async (req, res) => {
 
 exports.uploadGet = (req, res) => {
   if (!req.user) return res.redirect("/auth"); // Confirm the user is logged in
+  let path = req.params.path;
+  console.log(path);
 
-  res.render("upload");
+  res.render("upload", { current: path });
 };
 
 exports.uploadPost = [
   upload.single("uploadedFile"),
-  (req, res) => {
+  async (req, res) => {
+    let user = req.user;
+    let path = req.params.path;
+    if (path === "root") path = "";
+    const file = req.file;
+    await queries.registerFile(
+      file.originalname,
+      file.filename,
+      file.path,
+      file.size,
+      path,
+      user.id
+    );
     /*
     name: originalname,
     storedName: filename,
     path: path,
     size: size
     */
-    res.redirect("/users/dashboard");
+    if (path === "") path = "root";
+    res.redirect(`/users/dashboard/${path}`);
   },
 ];
+
+exports.deleteFilePost = async (req, res) => {
+  const user = req.user;
+  if (user) {
+    let name = req.params.name;
+    let current = req.body.currentPath;
+    let path = current + "/" + name;
+    await queries.deleteFile(path, user.id);
+    current = current.replace("/", "%2F").replace(" ", "%20");
+    res.redirect(`/users/dashboard/${current}`);
+  } else {
+    res.redirect("/auth");
+  }
+};

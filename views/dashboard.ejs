@@ -27,7 +27,7 @@
               <input
                 type="hidden"
                 name="currentPath"
-                value="<%= current.length > 1 ? current.slice(0, -1).replace('/', '%2F') : 'root' %>"
+                value="<%= current.length > 1 ? current.slice(0, -1).replace('/', '%2F').replace(' ', '%20') : 'root' %>"
               />
               <button type="submit">Delete</button>
             </form>
@@ -41,14 +41,31 @@
           </div>
         </li>
         <% }) %> <% content[1].forEach(entity => { %>
-        <li class="file"><%= entity.name %></li>
+        <li>
+          <div class="file">
+            <p><%= entity.name %></p>
+            <form
+              action="/users/dashboard/<%=entity.name.replace('/', '%2F').replace(' ', '%20')%>/deleteFile"
+              method="post"
+            >
+              <input
+                type="hidden"
+                name="currentPath"
+                value="<%= current.length > 1 ? current.slice(0, -1) : 'root' %>"
+              />
+              <button type="submit">Delete</button>
+            </form>
+          </div>
+        </li>
         <% }) %>
       </ul>
       <div class="buttons">
         <button id="createFolder" onclick="createFolder(event)">
           Create folder
         </button>
-        <a href="/users/upload" class="uploadButton"
+        <a
+          href="/users/<%= current === '/' ? 'root' : current.slice(0, -1).replace('/', '%2F').replace(' ', '%20') %>/upload"
+          class="uploadButton"
           ><button>Upload A File</button></a
         >
       </div>
