@@ -55,6 +55,13 @@
               />
               <button type="submit">Delete</button>
             </form>
+            <button
+              id="renameFile"
+              data-entity='<%- JSON.stringify(entity).replace(/'/g, "&apos;") %>'
+              onclick="renameFile(this)"
+            >
+              Rename
+            </button>
           </div>
         </li>
         <% }) %>
@@ -144,6 +151,46 @@
       renameFolderForm.appendChild(submitButton);
 
       buttons.appendChild(renameFolderForm);
+    }
+
+    function renameFile(btn) {
+      const file = JSON.parse(btn.dataset.entity);
+      const buttons = document.querySelector(".buttons");
+      const createFolderButton = document.querySelector("#createFolder");
+      const uploadButton = document.querySelector(".uploadButton");
+      createFolderButton.classList.add("hidden");
+      uploadButton.classList.add("hidden");
+      const renameFileForm = document.createElement("form");
+      renameFileForm.setAttribute("method", "post");
+      renameFileForm.setAttribute(
+        "action",
+        `/users/dashboard/${file.id}/renameFile`
+      );
+      const fileNameLabel = document.createElement("label");
+      fileNameLabel.setAttribute("for", "fileNameInput");
+      fileNameLabel.textContent = "New name: ";
+      const fileNameInput = document.createElement("input");
+      fileNameInput.setAttribute("id", "fileNameInput");
+      fileNameInput.setAttribute("name", "newName");
+      fileNameInput.setAttribute("type", "text");
+      const currentPath = document.createElement("input");
+      currentPath.setAttribute("type", "hidden");
+      currentPath.setAttribute("name", "currentPath");
+      currentPath.setAttribute(
+        "value",
+        "<%= current.length > 1 ? current.slice(0, -1).replace('/', '%2F') : 'root' %>"
+      );
+
+      const submitButton = document.createElement("button");
+      submitButton.setAttribute("type", "submit");
+      submitButton.textContent = "Rename";
+
+      renameFileForm.appendChild(fileNameLabel);
+      renameFileForm.appendChild(fileNameInput);
+      renameFileForm.appendChild(currentPath);
+      renameFileForm.appendChild(submitButton);
+
+      buttons.appendChild(renameFileForm);
     }
   </script>
 </html>

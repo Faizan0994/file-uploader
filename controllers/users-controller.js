@@ -90,7 +90,6 @@ exports.renameFolderPost = async (req, res) => {
 exports.uploadGet = (req, res) => {
   if (!req.user) return res.redirect("/auth"); // Confirm the user is logged in
   let path = req.params.path;
-  console.log(path);
 
   res.render("upload", { current: path });
 };
@@ -128,6 +127,20 @@ exports.deleteFilePost = async (req, res) => {
     let current = req.body.currentPath;
     let path = current + "/" + name;
     await queries.deleteFile(path, user.id);
+    current = current.replace("/", "%2F").replace(" ", "%20");
+    res.redirect(`/users/dashboard/${current}`);
+  } else {
+    res.redirect("/auth");
+  }
+};
+
+exports.renameFilePost = async (req, res) => {
+  let user = req.user;
+  if (user) {
+    let id = +req.params.id;
+    let current = req.body.currentPath;
+    let newName = req.body.newName;
+    await queries.renameFileById(id, newName, user.id);
     current = current.replace("/", "%2F").replace(" ", "%20");
     res.redirect(`/users/dashboard/${current}`);
   } else {

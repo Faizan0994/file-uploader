@@ -20,6 +20,11 @@ a {
   background-color: rgb(241, 240, 240);
   padding: 0.5vw;
   border-radius: 8px;
+  align-items: center;
+}
+
+.file > p {
+  margin: 0;
 }
 
 .hidden {

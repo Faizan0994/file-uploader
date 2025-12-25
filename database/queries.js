@@ -198,3 +198,19 @@ exports.renameFile = async (path, newName, userId) => {
     console.log(error);
   }
 };
+
+exports.renameFileById = async (fileId, newName, userId) => {
+  try {
+    await prisma.file.update({
+      where: {
+        id: fileId,
+        userId: userId,
+      },
+      data: {
+        name: newName,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
