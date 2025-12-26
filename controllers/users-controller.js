@@ -147,3 +147,25 @@ exports.renameFilePost = async (req, res) => {
     res.redirect("/auth");
   }
 };
+
+exports.fileGet = async (req, res) => {
+  let user = req.user;
+  if (user) {
+    const id = +req.params.id;
+    const file = await queries.getFileById(id, user.id);
+    res.render("file", { file: file });
+  } else {
+    res.redirect("/auth");
+  }
+};
+
+exports.download = async (req, res) => {
+  let user = req.user;
+  if (user) {
+    const id = +req.params.id;
+    const file = await queries.getFileById(id, user.id);
+    res.download(file.path, file.name);
+  } else {
+    res.redirect("/auth");
+  }
+};

@@ -214,3 +214,17 @@ exports.renameFileById = async (fileId, newName, userId) => {
     console.log(error);
   }
 };
+
+exports.getFileById = async (fileId, userId) => {
+  try {
+    const file = await prisma.file.findUnique({
+      where: {
+        id: fileId,
+        userId: userId,
+      },
+    });
+    return file;
+  } catch (error) {
+    console.log(error);
+  }
+};

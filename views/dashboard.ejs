@@ -43,7 +43,7 @@
         <% }) %> <% content[1].forEach(entity => { %>
         <li>
           <div class="file">
-            <p><%= entity.name %></p>
+            <a href="/users/dashboard/<%=entity.id%>/getFile"><%= entity.name %></a>
             <form
               action="/users/dashboard/<%=entity.name.replace('/', '%2F').replace(' ', '%20')%>/deleteFile"
               method="post"

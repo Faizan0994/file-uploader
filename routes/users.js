@@ -27,4 +27,8 @@ router.post("/dashboard/:name/deleteFile", controller.deleteFilePost);
 
 router.post("/dashboard/:id/renameFile", controller.renameFilePost);
 
+router.get("/dashboard/:id/getFile", controller.fileGet);
+
+router.get("/dashboard/:id/download", controller.download);
+
 module.exports = router;

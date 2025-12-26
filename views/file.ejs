@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Details</title>
+  </head>
+  <body>
+    <p>File name: <%=file.name%></p>
+    <p>File size: <%=file.size%> Bytes</p>
+    <p>Uploaded: <%=file.uploaded%></p>
+    <a href="/users/dashboard/<%=file.id%>/download"
+      ><button>Download</button></a
+    >
+  </body>
+</html>
